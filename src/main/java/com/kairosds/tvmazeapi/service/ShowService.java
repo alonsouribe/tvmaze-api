@@ -29,4 +29,17 @@ public class ShowService {
         }
         return responses;
     }
+
+
+    public ShowResponse getShowById(Long showId) {
+
+        TvMazeShowDto show = tvMazeClient.getShowById(showId);
+
+        // devuelve null si no tiene ningun show con ese id
+        if(show == null) {
+            return null;
+        }
+
+        return new ShowResponse(show.getId(), show.getName(), show.getChannelName(), show.getSummary(), show.getGenres());
+    }
 }

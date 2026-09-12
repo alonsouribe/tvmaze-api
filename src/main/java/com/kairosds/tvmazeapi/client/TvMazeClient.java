@@ -1,8 +1,10 @@
 package com.kairosds.tvmazeapi.client;
 
 import com.kairosds.tvmazeapi.dto.external.TvMazeSearchResultDto;
+import com.kairosds.tvmazeapi.dto.external.TvMazeShowDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClient;
 
 import java.util.ArrayList;
@@ -33,4 +35,17 @@ public class TvMazeClient {
         }
         return list;
     }
+
+    // https://api.tvmaze.com/shows/{show_id}
+    public TvMazeShowDto getShowById(Long showId) {
+        try {
+            return restClient.get()
+                    .uri("/shows/{id}", showId)
+                    .retrieve()
+                    .body(TvMazeShowDto.class);
+            // solo se cacha error 404, sin el marca error 500
+        } catch (HttpClientErrorException.NotFound ex) {
+            return null;
+        }
+    }   
 }
