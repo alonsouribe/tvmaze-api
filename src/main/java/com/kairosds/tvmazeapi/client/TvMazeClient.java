@@ -47,5 +47,5 @@ public class TvMazeClient {
         } catch (HttpClientErrorException.NotFound ex) {
             return null;
         }
-    }   
+    }
 }

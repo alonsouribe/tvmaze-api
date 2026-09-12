@@ -4,6 +4,8 @@ server:
 spring:
   application:
     name: tvmaze-api
+  mongodb:
+    uri: ${MONGODB_URI:mongodb://localhost:27017/tvmaze}
 
 tvmaze:
   base-url: ${TVMAZE_BASE_URL:https://api.tvmaze.com}
