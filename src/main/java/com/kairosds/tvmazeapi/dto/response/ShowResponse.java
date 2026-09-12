@@ -14,4 +14,5 @@ public class ShowResponse {
     private final String channel;
     private final String summary;
     private final List<String> genres;
+    private final List<CommentResponse> comments;
 }
