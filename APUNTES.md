@@ -222,3 +222,62 @@ una vez corregido
 la respuesta fue correcta
 {"id":140,"name":"Looking","channel":"Looking","summary":"<p><b>Looking</b> offers up the unfiltered experiences of three close friends living - and loving - in modern-day San Francisco. Friendship may bind them, but each is at a markedly different point in his journey: Patrick is the 29-year-old video game designer getting back into the dating world in the wake of his ex's engagement; aspiring artist Agustín, 31, is questioning the idea of monogamy amid a move to domesticate with his boyfriend; and the group's oldest member - longtime waiter Dom, 39 - is facing middle age with romantic and professional dreams still unfulfilled.</p><p>The trio's stories intertwine and unspool dramatically as they search for happiness and intimacy in an age of unparalleled choices - and rights - for gay men. Also important to the ‘Looking' mix is the progressive, unpredictable, sexually open culture of the Bay Area, with real San Francisco locations serving as a backdrop for the group's lives. Rounding out the ‘Looking' world are a bevy of dynamic gay men including Kevin, Lynn, and Richie, as well as a wide-range of supporting characters like Dom's roommate Doris, Agustín's boyfriend Frank, and Patrick's co-worker Owen.</p>","genres":["Drama","Comedy","Romance"],"comments":[]}
 
+para crear las pruebas unitarias y manteniendo la estructura de src/main/java, se crean sobre src/test/java
+
+creamos el servicio de CommentServiceTest con 2 pruebas para guardar el comentario y obtener los comentarios por show id
+
+no me da el autocompletado para assertEquals y when importamos:
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
+
+si sale este error:
+
+Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (C:\Users\PC\.m2\repository\net\bytebuddy\byte-buddy-agent\1.18.11\byte-buddy-agent-1.18.11.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+
+para ocultar el warning, se agrega -XX:+EnableDynamicAgentLoading en Edit Configurations > VM options
+
+creamos el servicio de ShowServiceTest con 3 pruebas para obtener el show de cache, desde api y en caso que no exista el show
+
+me salio el error:
+
+org.opentest4j.AssertionFailedError:
+Expected :HBO
+Actual   :Girls
+<Click to see difference>
+
+at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:158)
+at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:139)
+at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:201)
+at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:184)
+at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:179)
+at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1188)
+at com.kairosds.tvmazeapi.service.ShowServiceTest.getShowByIdCache(ShowServiceTest.java:52)
+
+se debe que el servicio espera getChannel() en vez de getName()
+se hizo la correcion en ShowService
+
+return new ShowResponse(show.getId(), show.getName(), show.getName(), show.getSummary(), show.getGenres(), comments);
+POR
+return new ShowResponse(show.getId(), show.getName(), show.getChannel(), show.getSummary(), show.getGenres(), comments);
+con esto pasa la prueba
+
+al correr por comando mvnw test pasan todas las pruebas
+
+2026-09-14T23:37:55.390-07:00  INFO 26764 --- [tvmaze-api] [           main] c.k.tvmazeapi.TvmazeApiApplicationTests  : Started TvmazeApiApplicationTests in 1.837 seconds (process running for 3.674)
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.307 s -- in com.kairosds.tvmazeapi.TvmazeApiApplicationTests
+[INFO]
+[INFO] Results:
+[INFO]
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0
+[INFO]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  5.522 s
+[INFO] Finished at: 2026-09-14T23:37:55-07:00
+[INFO] ------------------------------------------------------------------------

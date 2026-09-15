@@ -72,6 +72,7 @@ public class ShowService {
         List<CommentResponse> comments = commentService.getByShowId(showId);
 
         // retornamos la respuesta
-        return new ShowResponse(show.getId(), show.getName(), show.getName(), show.getSummary(), show.getGenres(), comments);
+        return new ShowResponse(show.getId(), show.getName(), show.getChannel(), show.getSummary(), show.getGenres(), comments);
+
     }
 }

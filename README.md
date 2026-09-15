@@ -21,3 +21,16 @@ La API queda en `http://localhost:8080`.
 - `GET /api/shows/search?q={query}` — busca shows
 - `GET /api/shows/{id}` — detalle de un show (con cache en Mongo)
 - `POST /api/shows/{id}/comments` — guarda un comentario `{ comment, rating }`
+
+## Cómo correr los tests
+
+Clic derecho sobre la carpeta `src/test/java` **Run 'Tests in ...'** (corre todos),
+
+o clic derecho sobre un archivo específico  **Run 'NombreDelTest'** (corre solo ese).
+
+Por terminal, debes estar en la carpeta raíz del proyecto (donde está `pom.xml`):
+
+**Windows (CMD):**
+```
+mvnw test
+```
